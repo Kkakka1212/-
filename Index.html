@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 포럼 웹사이트</title>
+    <!-- Google Fonts 추가 -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #444;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 80%;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post {
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+        }
+
+        .post h2 {
+            margin: 0;
+        }
+
+        .post p {
+            margin: 0.5rem 0 0 0;
+        }
+
+        .tag {
+            background-color: #eee;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
+        .comment-section {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .comment-section h3 {
+            margin-top: 0;
+        }
+
+        .comment-section textarea {
+            width: 100%;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+
+        .comment-section button {
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .comment-section button:hover {
+            background-color: #555;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #333;
+            color: white;
+            margin-top: 2rem;
+            /* 폰트 및 크기 변경 */
+            font-family: 'Pacifico', cursive;
+            font-size: 1.5rem;
+        }
+
+        .form-container {
+            margin-top: 2rem;
+        }
+
+        .form-container h2 {
+            margin-bottom: 1rem;
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container input, 
+        .form-container textarea {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .form-container button {
+            padding: 0.5rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>나의 포럼 웹사이트</h1>
+    </header>
+
+    <nav>
+        <a href="#">홈</a>
+        <a href="#">포럼</a>
+        <a href="#">내 프로필</a>
+        <a href="#">로그인</a>
+    </nav>
+
+    <div class="container">
+        <div class="post">
+            <h2>첫 번째 게시글</h2>
+            <div class="tags">
+                <span class="tag">태그1</span>
+                <span class="tag">태그2</span>
+            </div>
+            <p>이것은 첫 번째 게시글의 내용입니다. 이곳에 글을 작성할 수 있습니다.</p>
+            
+            <!-- 댓글 섹션 추가 -->
+            <div class="comment-section">
+                <h3>댓글</h3>
+                <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
+                <button type="button">댓글 달기</button>
+            </div>
+        </div>
+
+        <div class="post">
+            <h2>두 번째 게시글</h2>
+            <div class="tags">
+                <span class="tag">태그3</span>
+                <span class="tag">태그4</span>
+            </div>
+            <p>이것은 두 번째 게시글의 내용입니다. 여기에도 글을 작성할 수 있습니다.</p>
+            
+            <!-- 댓글 섹션 추가 -->
+            <div class="comment-section">
+                <h3>댓글</h3>
+                <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
+                <button type="button">댓글 달기</button>
+            </div>
+        </div>
+
+        <!-- 글 업로드 폼 추가 -->
+        <div class="form-container">
+            <h2>새 게시글 작성</h2>
+            <form action="/submit-post" method="POST">
+                <label for="title">제목:</label>
+                <input type="text" id="title" name="title" required>
+
+                <label for="content">내용:</label>
+                <textarea id="content" name="content" rows="5" required></textarea>
+
+                <button type="submit">게시글 제출</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Page of forums</p>
+    </footer>
+</body>
+</html>
