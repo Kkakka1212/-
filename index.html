@@ -30,7 +30,37 @@
         </aside>
 
         <section class="posts-container" id="postsContainer">
-            <!-- 게시글은 JavaScript로 동적으로 추가됩니다. -->
+            <div class="post" data-tags="공지 태그1 태그2">
+                <h2>첫 번째 게시글</h2>
+                <div class="tags">
+                    <span class="tag">태그1</span>
+                    <span class="tag">태그2</span>
+                </div>
+                <p>이것은 첫 번째 게시글의 내용입니다. 이곳에 글을 작성할 수 있습니다.</p>
+
+                <div class="comment-section">
+                    <h3>댓글</h3>
+                    <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
+                    <button type="button" onclick="addComment(this)">댓글 달기</button>
+                    <ul class="comment-list"></ul>
+                </div>
+            </div>
+
+            <div class="post" data-tags="공지 태그3 태그4">
+                <h2>두 번째 게시글</h2>
+                <div class="tags">
+                    <span class="tag">태그3</span>
+                    <span class="tag">태그4</span>
+                </div>
+                <p>이것은 두 번째 게시글의 내용입니다. 여기에도 글을 작성할 수 있습니다.</p>
+
+                <div class="comment-section">
+                    <h3>댓글</h3>
+                    <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
+                    <button type="button" onclick="addComment(this)">댓글 달기</button>
+                    <ul class="comment-list"></ul>
+                </div>
+            </div>
         </section>
 
         <div class="form-container">
