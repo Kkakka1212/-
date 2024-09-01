@@ -1,22 +1,29 @@
-<script>
-    // 좋아요 버튼 클릭 시 좋아요 수 증가 및 취소
-    function likePost(button) {
-        // 현재 좋아요 수 가져오기
-        const likeCountSpan = button.querySelector('.like-count');
-        let likeCount = parseInt(likeCountSpan.textContent, 10);
-        const isLiked = button.classList.contains('liked');
-
-        if (isLiked) {
-            // 좋아요 취소
-            likeCount--;
-            button.classList.remove('liked'); // 'liked' 클래스 제거
+// 댓글 창 열고 닫기 기능
+document.querySelectorAll('.toggle-comments').forEach(function(toggle) {
+    toggle.addEventListener('click', function() {
+        const commentSection = this.nextElementSibling;
+        if (commentSection.style.display === 'none' || commentSection.style.display === '') {
+            commentSection.style.display = 'block';
+            this.textContent = '댓글 숨기기';
         } else {
-            // 좋아요 추가
-            likeCount++;
-            button.classList.add('liked'); // 'liked' 클래스 추가
+            commentSection.style.display = 'none';
+            this.textContent = '댓글 보기';
         }
+    });
+});
 
-        // 좋아요 수 업데이트
-        likeCountSpan.textContent = likeCount;
+// 댓글 추가 기능
+function addComment(button) {
+    const commentSection = button.closest('.comment-section');
+    const textarea = commentSection.querySelector('textarea');
+    const commentList = commentSection.querySelector('.comment-list');
+
+    if (textarea.value.trim() !== '') {
+        const newComment = document.createElement('li');
+        newComment.textContent = textarea.value;
+        commentList.appendChild(newComment);
+        textarea.value = ''; // 텍스트 필드 초기화
+    } else {
+        alert('댓글을 작성하세요!');
     }
-</script>
+}
