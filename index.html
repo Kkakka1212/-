@@ -9,31 +9,30 @@
 <body>
     <header>
         <h1>나의 포럼 웹사이트</h1>
+        <nav>
+            <a href="#">홈</a>
+            <a href="#">포럼</a>
+            <a href="#">내 프로필</a>
+            <a href="#">로그인</a>
+        </nav>
     </header>
 
-    <nav>
-        <a href="#">홈</a>
-        <a href="#">포럼</a>
-        <a href="#">내 프로필</a>
-        <a href="#">로그인</a>
-    </nav>
+    <main>
+        <aside class="sidebar">
+            <h2>채널</h2>
+            <div class="channel-menu">
+                <div class="channel active" onclick="showChannel('공지')">공지</div>
+                <div class="channel" onclick="showChannel('태그1')">태그1</div>
+                <div class="channel" onclick="showChannel('태그2')">태그2</div>
+                <div class="channel" onclick="showChannel('태그3')">태그3</div>
+                <div class="channel" onclick="showChannel('태그4')">태그4</div>
+            </div>
+        </aside>
 
-    <div class="container">
-        <!-- 채널 메뉴 -->
-        <div class="channel-menu">
-            <div class="channel active" onclick="showChannel('공지')">공지</div>
-            <div class="channel" onclick="showChannel('태그1')">태그1</div>
-            <div class="channel" onclick="showChannel('태그2')">태그2</div>
-            <div class="channel" onclick="showChannel('태그3')">태그3</div>
-            <div class="channel" onclick="showChannel('태그4')">태그4</div>
-        </div>
-
-        <!-- 게시글 컨테이너 -->
-        <div class="posts-container" id="postsContainer">
+        <section class="posts-container" id="postsContainer">
             <!-- 게시글은 JavaScript로 동적으로 추가됩니다. -->
-        </div>
+        </section>
 
-        <!-- 새 글 작성 폼 -->
         <div class="form-container">
             <h2>새 게시글 작성</h2>
             <form id="postForm" action="/submit-post" method="POST" enctype="multipart/form-data">
@@ -56,7 +55,6 @@
                 <label for="subTag">소분류(소태그):</label>
                 <select id="subTag">
                     <option value="">소태그 선택</option>
-                    <!-- 소태그 옵션은 JavaScript에 의해 동적으로 추가됨 -->
                 </select>
 
                 <button type="button" onclick="addTag()">태그 추가</button>
@@ -71,7 +69,7 @@
                 <button type="submit">게시글 작성</button>
             </form>
         </div>
-    </div>
+    </main>
 
     <footer>
         <p>© 2024 나의 포럼 웹사이트. 모든 권리 보유.</p>
