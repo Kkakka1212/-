@@ -141,3 +141,11 @@ footer {
     margin-top: 0.5rem;
     display: inline-block;
 }
+/* 기존 CSS는 유지됩니다. 아래에 추가된 부분만 있습니다. */
+
+.form-container select {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
