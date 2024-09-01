@@ -6,13 +6,12 @@ function updateSubTags() {
     subTagSelect.innerHTML = '';
 
     if (mainTag) {
-        // 예시 소태그 목록
         const subTags = {
-            '대태그1': ['소태그1-1', '소태그1-2'],
-            '대태그2': ['소태그2-1', '소태그2-2'],
-            '대태그3': ['소태그3-1', '소태그3-2'],
-            '대태그4': ['소태그4-1', '소태그4-2'],
-            '대태그5': ['소태그5-1', '소태그5-2'],
+            '태그1': ['소태그1-1', '소태그1-2'],
+            '태그2': ['소태그2-1', '소태그2-2'],
+            '태그3': ['소태그3-1', '소태그3-2'],
+            '태그4': ['소태그4-1', '소태그4-2'],
+            '태그5': ['소태그5-1', '소태그5-2'],
         };
 
         subTags[mainTag].forEach(tag => {
@@ -25,101 +24,121 @@ function updateSubTags() {
 }
 
 function addTag() {
-    const selectedTag = document.getElementById('subTag').value;
-    if (selectedTag && !tagList.includes(selectedTag)) {
-        tagList.push(selectedTag);
-        const tagDiv = document.createElement('div');
-        tagDiv.className = 'tag';
-        tagDiv.textContent = selectedTag;
-        tagDiv.onclick = function() {
-            removeTag(selectedTag);
-        };
-        document.getElementById('selectedTags').appendChild(tagDiv);
-        document.getElementById('subTag').value = '';
+    const mainTag = document.getElementById('mainTag').value;
+    const subTag = document.getElementById('subTag').value;
+
+    if (mainTag && !tagList.includes(mainTag)) {
+        tagList.push(mainTag);
     }
+
+    if (subTag && !tagList.includes(subTag)) {
+        tagList.push(subTag);
+    }
+
+    renderSelectedTags();
 }
 
-function removeTag(tag) {
-    tagList = tagList.filter(t => t !== tag);
-    const tagElements = document.querySelectorAll('.selected-tags .tag');
-    tagElements.forEach(element => {
-        if (element.textContent === tag) {
-            element.remove();
-        }
+function renderSelectedTags() {
+    const selectedTagsDiv = document.getElementById('selectedTags');
+    selectedTagsDiv.innerHTML = '';
+
+    tagList.forEach(tag => {
+        const tagSpan = document.createElement('span');
+        tagSpan.className = 'tag';
+        tagSpan.textContent = tag;
+        selectedTagsDiv.appendChild(tagSpan);
     });
 }
 
 function previewImages() {
-    const files = document.getElementById('files').files;
-    const previewContainer = document.getElementById('imagePreview');
-    previewContainer.innerHTML = '';
+    const fileInput = document.getElementById('files');
+    const imagePreview = document.getElementById('imagePreview');
+    imagePreview.innerHTML = '';
 
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
+    Array.from(fileInput.files).forEach(file => {
         const reader = new FileReader();
         reader.onload = function(e) {
             const img = document.createElement('img');
             img.src = e.target.result;
             img.className = 'image-item';
-            img.dataset.filename = file.name; // 파일 이름을 데이터 속성으로 저장
-
-            const removeBtn = document.createElement('button');
-            removeBtn.textContent = '삭제';
-            removeBtn.onclick = function() {
-                removeImage(file.name); // 파일 이름으로 제거
+            const btn = document.createElement('button');
+            btn.textContent = '삭제';
+            btn.onclick = function() {
+                removeImage(file);
             };
-
-            const div = document.createElement('div');
-            div.className = 'image-item-container'; // 컨테이너를 생성하여 이미지와 삭제 버튼을 포함
-            div.appendChild(img);
-            div.appendChild(removeBtn);
-            previewContainer.appendChild(div);
+            const container = document.createElement('div');
+            container.className = 'image-item-container';
+            container.appendChild(img);
+            container.appendChild(btn);
+            imagePreview.appendChild(container);
         };
         reader.readAsDataURL(file);
-    }
+    });
 }
 
-function removeImage(fileName) {
-    const imageItems = document.querySelectorAll('#imagePreview .image-item-container');
-    imageItems.forEach(item => {
-        const img = item.querySelector('img');
-        if (img && img.dataset.filename === fileName) {
-            item.remove(); // 이미지 요소를 DOM에서 제거
-        }
+function removeImage(fileToRemove) {
+    const fileInput = document.getElementById('files');
+    const fileList = Array.from(fileInput.files);
+    const newFileList = fileList.filter(file => file !== fileToRemove);
+
+    const dataTransfer = new DataTransfer();
+    newFileList.forEach(file => dataTransfer.items.add(file));
+    fileInput.files = dataTransfer.files;
+
+    previewImages();
+}
+
+function showChannel(channelName) {
+    const postsContainer = document.getElementById('postsContainer');
+    postsContainer.innerHTML = ''; // 기존 게시글 제거
+
+    // 게시글 필터링 및 추가 (예시 데이터)
+    const posts = getPosts(); // 게시글 데이터를 가져오는 함수
+    const filteredPosts = posts.filter(post => post.tags.includes(channelName));
+
+    filteredPosts.forEach(post => {
+        const postDiv = document.createElement('div');
+        postDiv.className = 'post';
+        postDiv.innerHTML = `
+            <h2>${post.title}</h2>
+            <div class="tags">${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+            <p>${post.content}</p>
+            <div class="comment-section">
+                <h3>댓글</h3>
+                <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
+                <button type="button" onclick="addComment(this)">댓글 달기</button>
+                <ul class="comment-list"></ul>
+            </div>
+        `;
+        postsContainer.appendChild(postDiv);
     });
 
-    // 파일 입력란에서 선택된 파일 목록에서 삭제된 파일을 제거
-    const dataTransfer = new DataTransfer();
-    const files = document.getElementById('files').files;
-    for (const file of files) {
-        if (file.name !== fileName) {
-            dataTransfer.items.add(file);
-        }
-    }
-    document.getElementById('files').files = dataTransfer.files;
+    // 활성화된 채널 메뉴 항목 업데이트
+    const channels = document.querySelectorAll('.channel');
+    channels.forEach(channel => {
+        channel.classList.toggle('active', channel.textContent === channelName);
+    });
 }
 
-function toggleComments(element) {
-    const commentSection = element.nextElementSibling;
-    if (commentSection.style.display === "none" || commentSection.style.display === "") {
-        commentSection.style.display = "block";
-        element.textContent = "댓글 숨기기";
-    } else {
-        commentSection.style.display = "none";
-        element.textContent = "댓글 보기";
-    }
+function getPosts() {
+    // 예시 게시글 데이터
+    return [
+        { title: '첫 번째 게시글', content: '이것은 첫 번째 게시글의 내용입니다.', tags: ['공지'] },
+        { title: '두 번째 게시글', content: '이것은 두 번째 게시글의 내용입니다.', tags: ['태그1'] },
+        // 실제 데이터는 서버에서 받아오는 부분으로 대체
+    ];
 }
 
 function addComment(button) {
     const commentSection = button.parentElement;
     const textarea = commentSection.querySelector('textarea');
     const commentList = commentSection.querySelector('.comment-list');
-    const commentText = textarea.value.trim();
+    const comment = textarea.value.trim();
 
-    if (commentText) {
-        const listItem = document.createElement('li');
-        listItem.textContent = commentText;
-        commentList.appendChild(listItem);
+    if (comment) {
+        const li = document.createElement('li');
+        li.textContent = comment;
+        commentList.appendChild(li);
         textarea.value = '';
     }
 }
