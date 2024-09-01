@@ -152,6 +152,19 @@
         .form-container button:hover {
             background-color: #555;
         }
+
+        .comment-list {
+            margin-top: 1rem;
+            padding-left: 1rem;
+            list-style-type: disc;
+        }
+
+        .toggle-comments {
+            cursor: pointer;
+            color: var(--primary-color);
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -176,10 +189,12 @@
             <p>이것은 첫 번째 게시글의 내용입니다. 이곳에 글을 작성할 수 있습니다.</p>
             
             <!-- 댓글 섹션 추가 -->
-            <div class="comment-section">
+            <div class="toggle-comments">댓글 보기</div>
+            <div class="comment-section" style="display: none;">
                 <h3>댓글</h3>
                 <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
-                <button type="button">댓글 달기</button>
+                <button type="button" onclick="addComment(this)">댓글 달기</button>
+                <ul class="comment-list"></ul>
             </div>
         </div>
 
@@ -192,22 +207,27 @@
             <p>이것은 두 번째 게시글의 내용입니다. 여기에도 글을 작성할 수 있습니다.</p>
             
             <!-- 댓글 섹션 추가 -->
-            <div class="comment-section">
+            <div class="toggle-comments">댓글 보기</div>
+            <div class="comment-section" style="display: none;">
                 <h3>댓글</h3>
                 <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
-                <button type="button">댓글 달기</button>
+                <button type="button" onclick="addComment(this)">댓글 달기</button>
+                <ul class="comment-list"></ul>
             </div>
         </div>
 
         <!-- 글 업로드 폼 추가 -->
         <div class="form-container">
             <h2>새 게시글 작성</h2>
-            <form action="/submit-post" method="POST">
+            <form action="/submit-post" method="POST" enctype="multipart/form-data">
                 <label for="title">제목:</label>
-                <input type="text" id="title" name="title" aria-required="true" required>
+                <input type="text" id="title" name="title" required>
 
                 <label for="content">내용:</label>
-                <textarea id="content" name="content" rows="5" aria-required="true" required></textarea>
+                <textarea id="content" name="content" rows="5" required></textarea>
+
+                <label for="image">이미지 파일 첨부:</label>
+                <input type="file" id="image" name="image" accept="image/*">
 
                 <button type="submit">게시글 제출</button>
             </form>
@@ -217,5 +237,35 @@
     <footer>
         <p>The Page of forums</p>
     </footer>
+
+    <script>
+        // 댓글 창 열고 닫기 기능
+        document.querySelectorAll('.toggle-comments').forEach(function(toggle) {
+            toggle.addEventListener('click', function() {
+                const commentSection = this.nextElementSibling;
+                if (commentSection.style.display === 'none') {
+                    commentSection.style.display = 'block';
+                    this.textContent = '댓글 숨기기';
+                } else {
+                    commentSection.style.display = 'none';
+                    this.textContent = '댓글 보기';
+                }
+            });
+        });
+
+        // 댓글 추가 기능
+        function addComment(button) {
+            const commentSection = button.closest('.comment-section');
+            const textarea = commentSection.querySelector('textarea');
+            const commentList = commentSection.querySelector('.comment-list');
+
+            if (textarea.value.trim() !== '') {
+                const newComment = document.createElement('li');
+                newComment.textContent = textarea.value;
+                commentList.appendChild(newComment);
+                textarea.value = ''; // 텍스트 필드 초기화
+            }
+        }
+    </script>
 </body>
 </html>
