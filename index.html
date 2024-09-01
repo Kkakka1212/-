@@ -3,14 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>잡글과 잡담</title>
+    <title>나의 포럼 웹사이트</title>
     <!-- Google Fonts 추가 -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #444;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 80%;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post {
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+        }
+
+        .post h2 {
+            margin: 0;
+        }
+
+        .post p {
+            margin: 0.5rem 0 0 0;
+        }
+
+        .tag {
+            background-color: #eee;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+        }
+
+        .comment-section {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .comment-section h3 {
+            margin-top: 0;
+        }
+
+        .comment-section textarea {
+            width: 100%;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+
+        .comment-section button {
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .comment-section button:hover {
+            background-color: #555;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #333;
+            color: white;
+            margin-top: 2rem;
+            /* 폰트 및 크기 변경 */
+            font-family: 'Pacifico', cursive;
+            font-size: 1.5rem;
+        }
+
+        .form-container {
+            margin-top: 2rem;
+        }
+
+        .form-container h2 {
+            margin-bottom: 1rem;
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container input, 
+        .form-container textarea,
+        .form-container select {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .form-container button {
+            padding: 0.5rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #555;
+        }
+
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .image-item-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image-item {
+            max-width: 150px;
+            max-height: 150px;
+            margin-bottom: 0.5rem;
+        }
+
+        .image-item button {
+            margin-top: 0.5rem;
+        }
+
+        .selected-tags {
+            margin-top: 1rem;
+        }
+
+        .selected-tags .tag {
+            display: inline-block;
+            background-color: #eee;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>그저 사이트 혹은 웹</h1>
+        <h1>나의 포럼 웹사이트</h1>
     </header>
 
     <nav>
@@ -21,16 +189,15 @@
     </nav>
 
     <div class="container">
-        <!-- 게시글 1 -->
-        <div class="post">
-            <h2>뭐 하려 만든 사이트야?</h2>
+        <div class="post" data-title="첫 번째 게시글" data-tags="태그1 태그2">
+            <h2>첫 번째 게시글</h2>
             <div class="tags">
-                <span class="tag">공지</span>
-                <span class="tag">안내</span>
+                <span class="tag">태그1</span>
+                <span class="tag">태그2</span>
             </div>
-            <p>당신이 나를 모르는데 어찌저찌 이 사이트에 들어왔단건 당신이 이 사이트를 나가야 한단걸 의미합니다.</p>
+            <p>이것은 첫 번째 게시글의 내용입니다. 이곳에 글을 작성할 수 있습니다.</p>
             
-            <div class="toggle-comments" onclick="toggleComments(this)">댓글 보기</div>
+            <div class="toggle-comments">댓글 보기</div>
             <div class="comment-section" style="display: none;">
                 <h3>댓글</h3>
                 <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
@@ -39,16 +206,15 @@
             </div>
         </div>
 
-        <!-- 게시글 2 -->
-        <div class="post">
-            <h2>진짜 목적은?</h2>
+        <div class="post" data-title="두 번째 게시글" data-tags="태그3 태그4">
+            <h2>두 번째 게시글</h2>
             <div class="tags">
-                <span class="tag">공지</span>
-                <span class="tag">안내</span>
+                <span class="tag">태그3</span>
+                <span class="tag">태그4</span>
             </div>
-            <p>친구들과의 잡담이나 수다, 소통때매 만든거니 날 모른다면 이 사이트를 나가요.</p>
+            <p>이것은 두 번째 게시글의 내용입니다. 여기에도 글을 작성할 수 있습니다.</p>
             
-            <div class="toggle-comments" onclick="toggleComments(this)">댓글 보기</div>
+            <div class="toggle-comments">댓글 보기</div>
             <div class="comment-section" style="display: none;">
                 <h3>댓글</h3>
                 <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
@@ -57,7 +223,7 @@
             </div>
         </div>
 
-         <!-- 새 글 작성 폼 -->
+        <!-- 새 글 작성 폼 -->
         <div class="form-container">
             <h2>새 게시글 작성</h2>
             <form id="postForm" action="/submit-post" method="POST" enctype="multipart/form-data">
@@ -68,7 +234,7 @@
                 <textarea id="content" name="content" rows="5" required></textarea>
 
                 <label for="mainTag">대분류(대태그):</label>
-                <select id="mainTag" name="mainTag" onchange="updateSubTags()" required>
+                <select id="mainTag" onchange="updateSubTags()">
                     <option value="">대태그 선택</option>
                     <option value="대태그1">대태그1</option>
                     <option value="대태그2">대태그2</option>
@@ -78,7 +244,7 @@
                 </select>
 
                 <label for="subTag">소분류(소태그):</label>
-                <select id="subTag" name="subTag">
+                <select id="subTag">
                     <option value="">소태그 선택</option>
                     <!-- 소태그 옵션은 JavaScript에 의해 동적으로 추가됨 -->
                 </select>
@@ -101,6 +267,133 @@
         <p>© 2024 나의 포럼 웹사이트. 모든 권리 보유.</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // JavaScript 코드 삽입
+        let tagList = [];
+
+        function updateSubTags() {
+            const mainTag = document.getElementById('mainTag').value;
+            const subTagSelect = document.getElementById('subTag');
+            subTagSelect.innerHTML = '';
+
+            if (mainTag) {
+                // 예시 소태그 목록
+                const subTags = {
+                    '대태그1': ['소태그1-1', '소태그1-2'],
+                    '대태그2': ['소태그2-1', '소태그2-2'],
+                    '대태그3': ['소태그3-1', '소태그3-2'],
+                    '대태그4': ['소태그4-1', '소태그4-2'],
+                    '대태그5': ['소태그5-1', '소태그5-2'],
+                };
+
+                subTags[mainTag].forEach(tag => {
+                    const option = document.createElement('option');
+                    option.value = tag;
+                    option.textContent = tag;
+                    subTagSelect.appendChild(option);
+                });
+            }
+        }
+
+        function addTag() {
+            const selectedTag = document.getElementById('subTag').value;
+            if (selectedTag && !tagList.includes(selectedTag)) {
+                tagList.push(selectedTag);
+                const tagDiv = document.createElement('div');
+                tagDiv.className = 'tag';
+                tagDiv.textContent = selectedTag;
+                tagDiv.onclick = function() {
+                    removeTag(selectedTag);
+                };
+                document.getElementById('selectedTags').appendChild(tagDiv);
+                document.getElementById('subTag').value = '';
+            }
+        }
+
+        function removeTag(tag) {
+            tagList = tagList.filter(t => t !== tag);
+            const tagElements = document.querySelectorAll('.selected-tags .tag');
+            tagElements.forEach(element => {
+                if (element.textContent === tag) {
+                    element.remove();
+                }
+            });
+        }
+
+        function previewImages() {
+            const files = document.getElementById('files').files;
+            const previewContainer = document.getElementById('imagePreview');
+            previewContainer.innerHTML = '';
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'image-item';
+                    img.dataset.filename = file.name; // 파일 이름을 데이터 속성으로 저장
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.textContent = '삭제';
+                    removeBtn.onclick = function() {
+                        removeImage(file.name); // 파일 이름으로 제거
+                    };
+
+                    const div = document.createElement('div');
+                    div.className = 'image-item-container'; // 컨테이너를 생성하여 이미지와 삭제 버튼을 포함
+                    div.appendChild(img);
+                    div.appendChild(removeBtn);
+                    previewContainer.appendChild(div);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function removeImage(fileName) {
+            const imageItems = document.querySelectorAll('#imagePreview .image-item-container');
+            imageItems.forEach(item => {
+                const img = item.querySelector('img');
+                if (img && img.dataset.filename === fileName) {
+                    item.remove(); // 이미지 요소를 DOM에서 제거
+                }
+            });
+
+            // 파일 입력란에서 선택된 파일 목록에서 삭제된 파일을 제거
+            const dataTransfer = new DataTransfer();
+            const files = document.getElementById('files').files;
+            for (const file of files) {
+                if (file.name !== fileName) {
+                    dataTransfer.items.add(file);
+                }
+            }
+            document.getElementById('files').files = dataTransfer.files;
+        }
+
+        function toggleComments(element) {
+            const commentSection = element.nextElementSibling;
+            if (commentSection.style.display === "none" || commentSection.style.display === "") {
+                commentSection.style.display = "block";
+                element.textContent = "댓글 숨기기";
+            } else {
+                commentSection.style.display = "none";
+                element.textContent = "댓글 보기";
+            }
+        }
+
+        function addComment(button) {
+            const commentSection = button.parentElement;
+            const textarea = commentSection.querySelector('textarea');
+            const commentList = commentSection.querySelector('.comment-list');
+            const commentText = textarea.value.trim();
+
+            if (commentText) {
+                const listItem = document.createElement('li');
+                listItem.textContent = commentText;
+                commentList.appendChild(listItem);
+                textarea.value = '';
+            }
+        }
+    </script>
 </body>
 </html>
