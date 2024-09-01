@@ -3,101 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>포럼 웹사이트</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>게시판</title>
+    <link rel="stylesheet" href="styles.css"> <!-- CSS 파일 링크 -->
 </head>
 <body>
     <header>
-        <h1>나의 포럼 웹사이트</h1>
-        <nav>
-            <a href="#">홈</a>
-            <a href="#">포럼</a>
-            <a href="#">내 프로필</a>
-            <a href="#">로그인</a>
+        <h1>게시판</h1>
+        <nav class="channel-nav">
+            <button class="channel" onclick="showChannel('공지')">공지</button>
+            <button class="channel" onclick="showChannel('태그1')">태그1</button>
+            <button class="channel" onclick="showChannel('태그2')">태그2</button>
+            <button class="channel" onclick="showChannel('태그3')">태그3</button>
+            <button class="channel" onclick="showChannel('태그4')">태그4</button>
         </nav>
     </header>
-
+    
     <main>
-        <aside class="sidebar">
-            <h2>채널</h2>
-            <div class="channel-menu">
-                <div class="channel active" onclick="showChannel('공지')">공지</div>
-                <div class="channel" onclick="showChannel('태그1')">태그1</div>
-                <div class="channel" onclick="showChannel('태그2')">태그2</div>
-                <div class="channel" onclick="showChannel('태그3')">태그3</div>
-                <div class="channel" onclick="showChannel('태그4')">태그4</div>
-            </div>
-        </aside>
-
-        <section class="posts-container" id="postsContainer">
-            <div class="post" data-tags="공지 태그1 태그2">
-                <h2>첫 번째 게시글</h2>
-                <div class="tags">
-                    <span class="tag">태그1</span>
-                    <span class="tag">태그2</span>
-                </div>
-                <p>이것은 첫 번째 게시글의 내용입니다. 이곳에 글을 작성할 수 있습니다.</p>
-
-                <div class="comment-section">
-                    <h3>댓글</h3>
-                    <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
-                    <button type="button" onclick="addComment(this)">댓글 달기</button>
-                    <ul class="comment-list"></ul>
-                </div>
-            </div>
-
-            <div class="post" data-tags="공지 태그3 태그4">
-                <h2>두 번째 게시글</h2>
-                <div class="tags">
-                    <span class="tag">태그3</span>
-                    <span class="tag">태그4</span>
-                </div>
-                <p>이것은 두 번째 게시글의 내용입니다. 여기에도 글을 작성할 수 있습니다.</p>
-
-                <div class="comment-section">
-                    <h3>댓글</h3>
-                    <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
-                    <button type="button" onclick="addComment(this)">댓글 달기</button>
-                    <ul class="comment-list"></ul>
-                </div>
-            </div>
-        </section>
-
-        <div class="form-container">
-            <h2>새 게시글 작성</h2>
-            <form id="postForm" action="/submit-post" method="POST" enctype="multipart/form-data">
-                <label for="title">제목:</label>
-                <input type="text" id="title" name="title" required>
-
-                <label for="content">내용:</label>
-                <textarea id="content" name="content" rows="5" required></textarea>
-
-                <label for="mainTag">대분류(대태그):</label>
-                <select id="mainTag" onchange="updateSubTags()">
-                    <option value="">대태그 선택</option>
-                    <option value="태그1">태그1</option>
-                    <option value="태그2">태그2</option>
-                    <option value="태그3">태그3</option>
-                    <option value="태그4">태그4</option>
-                    <option value="태그5">태그5</option>
-                </select>
-
-                <label for="subTag">소분류(소태그):</label>
-                <select id="subTag">
-                    <option value="">소태그 선택</option>
-                </select>
-
-                <button type="button" onclick="addTag()">태그 추가</button>
-
-                <div id="selectedTags" class="selected-tags"></div>
-
-                <label for="files">이미지 첨부:</label>
-                <input type="file" id="files" name="files" multiple accept="image/*" onchange="previewImages()">
-
-                <div class="image-preview" id="imagePreview"></div>
-
-                <button type="submit">게시글 작성</button>
-            </form>
+        <div id="postsContainer">
+            <!-- 게시글이 여기에 동적으로 추가됩니다 -->
         </div>
     </main>
 
@@ -105,6 +28,6 @@
         <p>© 2024 나의 포럼 웹사이트. 모든 권리 보유.</p>
     </footer>
 
-    <script src="scripts.js"></script>
+    <script src="scripts.js"></script> <!-- JavaScript 파일 링크 -->
 </body>
 </html>
