@@ -1,4 +1,5 @@
 let tagList = [];
+let fileList = [];
 
 function updateSubTags() {
     const mainTag = document.getElementById('mainTag').value;
@@ -77,14 +78,10 @@ function previewImages() {
 }
 
 function removeImage(fileToRemove) {
-    const fileInput = document.getElementById('files');
-    const fileList = Array.from(fileInput.files);
-    const newFileList = fileList.filter(file => file !== fileToRemove);
-
+    fileList = Array.from(document.getElementById('files').files).filter(file => file !== fileToRemove);
     const dataTransfer = new DataTransfer();
-    newFileList.forEach(file => dataTransfer.items.add(file));
-    fileInput.files = dataTransfer.files;
-
+    fileList.forEach(file => dataTransfer.items.add(file));
+    document.getElementById('files').files = dataTransfer.files;
     previewImages();
 }
 
@@ -123,8 +120,8 @@ function showChannel(channelName) {
 function getPosts() {
     // 예시 게시글 데이터
     return [
-        { title: '첫 번째 게시글', content: '이것은 첫 번째 게시글의 내용입니다.', tags: ['공지'] },
-        { title: '두 번째 게시글', content: '이것은 두 번째 게시글의 내용입니다.', tags: ['태그1'] },
+        { title: '첫 번째 게시글', content: '이것은 첫 번째 게시글의 내용입니다.', tags: ['공지', '태그1', '태그2'] },
+        { title: '두 번째 게시글', content: '이것은 두 번째 게시글의 내용입니다.', tags: ['공지', '태그3', '태그4'] },
         // 실제 데이터는 서버에서 받아오는 부분으로 대체
     ];
 }
