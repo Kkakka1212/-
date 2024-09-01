@@ -1,3 +1,4 @@
+/* 기존 스타일 유지 */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -45,12 +46,26 @@ nav a {
     margin: 0.5rem 0 0 0;
 }
 
+.tags {
+    margin-bottom: 0.5rem;
+}
+
 .tag {
     background-color: #eee;
     padding: 0.2rem 0.5rem;
     border-radius: 3px;
     font-size: 0.9rem;
     margin-right: 0.5rem;
+}
+
+.toggle-comments {
+    margin-top: 0.5rem;
+    cursor: pointer;
+    color: #007bff;
+}
+
+.toggle-comments:hover {
+    text-decoration: underline;
 }
 
 .comment-section {
@@ -85,14 +100,17 @@ nav a {
     background-color: #555;
 }
 
-footer {
-    text-align: center;
-    padding: 2rem;
-    background-color: #333;
-    color: white;
-    margin-top: 2rem;
-    font-family: 'Pacifico', cursive;
-    font-size: 1.5rem;
+.comment-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.comment-list li {
+    background-color: #eee;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    border-radius: 3px;
 }
 
 .form-container {
@@ -109,7 +127,8 @@ footer {
 }
 
 .form-container input, 
-.form-container textarea {
+.form-container textarea, 
+.form-container select {
     margin-bottom: 1rem;
     padding: 0.5rem;
     border: 1px solid #ddd;
@@ -129,23 +148,58 @@ footer {
     background-color: #555;
 }
 
-.comment-list {
+.selected-tags {
     margin-top: 1rem;
-    padding-left: 1rem;
-    list-style-type: disc;
+    display: flex;
+    flex-wrap: wrap;
 }
 
-.toggle-comments {
-    cursor: pointer;
-    color: #007bff;
-    margin-top: 0.5rem;
-    display: inline-block;
-}
-/* 기존 CSS는 유지됩니다. 아래에 추가된 부분만 있습니다. */
-
-.form-container select {
-    margin-bottom: 1rem;
-    padding: 0.5rem;
-    border: 1px solid #ddd;
+.selected-tags .tag {
+    background-color: #eee;
+    padding: 0.2rem 0.5rem;
     border-radius: 3px;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+}
+
+.image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.image-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.image-item img {
+    max-width: 150px;
+    border-radius: 5px;
+}
+
+.image-item button {
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.5rem;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.image-item button:hover {
+    background-color: #c0392b;
+}
+
+footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: #333;
+    color: white;
+    margin-top: 2rem;
+    font-family: 'Pacifico', cursive;
+    font-size: 1.5rem;
 }
