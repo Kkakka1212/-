@@ -5,39 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>포럼 웹사이트</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
-
-        header {
-            background-color: #333;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
-
-        nav {
-            background-color: #444;
-            padding: 1rem;
-        }
-
-        nav a {
-            color: white;
-            margin: 0 1rem;
-            text-decoration: none;
-        }
-
-        .container {
-            width: 80%;
-            margin: 2rem auto;
-            background-color: white;
-            padding: 1rem;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+        /* 기존 스타일에 추가 및 수정 */
+        /* ... (기존 스타일은 생략) ... */
 
         .channel-menu {
             margin-bottom: 1rem;
@@ -72,6 +41,7 @@
             background-color: white;
             width: 100%;
             max-width: 300px;
+            box-sizing: border-box;
         }
 
         .post h2 {
@@ -286,7 +256,146 @@
             subTagSelect.innerHTML = '';
 
             if (mainTag) {
-                // 예시 소태그 목록
                 const subTags = {
                     '태그1': ['소태그1-1', '소태그1-2'],
-                    '태그2': ['소태그2-1', '소태그2
+                    '태그2': ['소태그2-1', '소태그2-2'],
+                    '태그3': ['소태그3-1', '소태그3-2'],
+                    '태그4': ['소태그4-1', '소태그4-2'],
+                    '태그5': ['소태그5-1', '소태그5-2'],
+                };
+
+                subTags[mainTag].forEach(tag => {
+                    const option = document.createElement('option');
+                    option.value = tag;
+                    option.textContent = tag;
+                    subTagSelect.appendChild(option);
+                });
+            }
+        }
+
+        function addTag() {
+            const mainTag = document.getElementById('mainTag').value;
+            const subTag = document.getElementById('subTag').value;
+
+            if (mainTag) {
+                if (!tagList.includes(mainTag)) {
+                    tagList.push(mainTag);
+                }
+            }
+            
+            if (subTag) {
+                if (!tagList.includes(subTag)) {
+                    tagList.push(subTag);
+                }
+            }
+
+            renderSelectedTags();
+        }
+
+        function renderSelectedTags() {
+            const selectedTagsDiv = document.getElementById('selectedTags');
+            selectedTagsDiv.innerHTML = '';
+
+            tagList.forEach(tag => {
+                const tagSpan = document.createElement('span');
+                tagSpan.className = 'tag';
+                tagSpan.textContent = tag;
+                selectedTagsDiv.appendChild(tagSpan);
+            });
+        }
+
+        function previewImages() {
+            const fileInput = document.getElementById('files');
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.innerHTML = '';
+
+            Array.from(fileInput.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'image-item';
+                    const btn = document.createElement('button');
+                    btn.textContent = '삭제';
+                    btn.onclick = function() {
+                        removeImage(file);
+                    };
+                    const container = document.createElement('div');
+                    container.className = 'image-item-container';
+                    container.appendChild(img);
+                    container.appendChild(btn);
+                    imagePreview.appendChild(container);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function removeImage(fileToRemove) {
+            const fileInput = document.getElementById('files');
+            const fileList = Array.from(fileInput.files);
+            const newFileList = fileList.filter(file => file !== fileToRemove);
+
+            const dataTransfer = new DataTransfer();
+            newFileList.forEach(file => dataTransfer.items.add(file));
+            fileInput.files = dataTransfer.files;
+
+            previewImages();
+        }
+
+        function showChannel(channelName) {
+            const postsContainer = document.getElementById('postsContainer');
+            postsContainer.innerHTML = ''; // 기존 게시글 제거
+
+            // 게시글 필터링 및 추가 (예시 데이터)
+            const posts = getPosts(); // 게시글 데이터를 가져오는 함수
+            const filteredPosts = posts.filter(post => post.tags.includes(channelName));
+
+            filteredPosts.forEach(post => {
+                const postDiv = document.createElement('div');
+                postDiv.className = 'post';
+                postDiv.innerHTML = `
+                    <h2>${post.title}</h2>
+                    <div class="tags">${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
+                    <p>${post.content}</p>
+                    <div class="comment-section">
+                        <h3>댓글</h3>
+                        <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
+                        <button type="button" onclick="addComment(this)">댓글 달기</button>
+                        <ul class="comment-list"></ul>
+                    </div>
+                `;
+                postsContainer.appendChild(postDiv);
+            });
+
+            // 활성화된 채널 메뉴 항목 업데이트
+            const channels = document.querySelectorAll('.channel');
+            channels.forEach(channel => {
+                channel.classList.toggle('active', channel.textContent === channelName);
+            });
+        }
+
+        function getPosts() {
+            // 예시 게시글 데이터
+            return [
+                { title: '첫 번째 게시글', content: '이것은 첫 번째 게시글의 내용입니다.', tags: ['공지'] },
+                { title: '두 번째 게시글', content: '이것은 두 번째 게시글의 내용입니다.', tags: ['태그1'] },
+                // 실제 데이터는 서버에서 받아오는 부분으로 대체
+            ];
+        }
+
+        function addComment(button) {
+            const commentSection = button.parentElement;
+            const textarea = commentSection.querySelector('textarea');
+            const commentList = commentSection.querySelector('.comment-list');
+            const comment = textarea.value.trim();
+
+            if (comment) {
+                const li = document.createElement('li');
+                li.textContent = comment;
+                commentList.appendChild(li);
+                textarea.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
