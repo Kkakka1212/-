@@ -61,11 +61,14 @@ function previewImages() {
             const img = document.createElement('img');
             img.src = e.target.result;
             img.className = 'image-item';
+            img.dataset.filename = file.name; // 파일 이름을 데이터 속성으로 저장
+            
             const removeBtn = document.createElement('button');
             removeBtn.textContent = '삭제';
             removeBtn.onclick = function() {
-                removeImage(file.name);
+                removeImage(file.name); // 파일 이름으로 제거
             };
+            
             const div = document.createElement('div');
             div.className = 'image-item';
             div.appendChild(img);
@@ -76,11 +79,12 @@ function previewImages() {
     }
 }
 
-function removeImage(imageName) {
-    const imageItems = document.querySelectorAll('.image-item');
+function removeImage(fileName) {
+    const imageItems = document.querySelectorAll('#imagePreview .image-item');
     imageItems.forEach(item => {
-        if (item.querySelector('img').src.includes(imageName)) {
-            item.remove();
+        const img = item.querySelector('img');
+        if (img && img.dataset.filename === fileName) {
+            item.remove(); // 이미지 요소를 DOM에서 제거
         }
     });
 }
