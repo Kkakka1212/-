@@ -3,31 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A forum website for discussing various topics.">
+    <meta name="keywords" content="forum, discussion, posts, comments">
     <title>나의 포럼 웹사이트</title>
     <!-- Google Fonts 추가 -->
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --primary-color: #333;
+            --secondary-color: #444;
+            --background-color: #f4f4f4;
+            --text-color: white;
+        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: var(--background-color);
         }
 
         header {
-            background-color: #333;
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--text-color);
             padding: 1rem;
             text-align: center;
         }
 
         nav {
-            background-color: #444;
+            background-color: var(--secondary-color);
             padding: 1rem;
         }
 
         nav a {
-            color: white;
+            color: var(--text-color);
             margin: 0 1rem;
             text-decoration: none;
         }
@@ -39,6 +48,12 @@
             padding: 1rem;
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                width: 90%;
+            }
         }
 
         .post {
@@ -83,8 +98,8 @@
 
         .comment-section button {
             padding: 0.5rem 1rem;
-            background-color: #333;
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--text-color);
             border: none;
             border-radius: 3px;
             cursor: pointer;
@@ -97,10 +112,9 @@
         footer {
             text-align: center;
             padding: 2rem;
-            background-color: #333;
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--text-color);
             margin-top: 2rem;
-            /* 폰트 및 크기 변경 */
             font-family: 'Pacifico', cursive;
             font-size: 1.5rem;
         }
@@ -128,8 +142,8 @@
 
         .form-container button {
             padding: 0.5rem;
-            background-color: #333;
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--text-color);
             border: none;
             border-radius: 3px;
             cursor: pointer;
@@ -145,7 +159,7 @@
         <h1>나의 포럼 웹사이트</h1>
     </header>
 
-    <nav>
+    <nav aria-label="Main navigation">
         <a href="#">홈</a>
         <a href="#">포럼</a>
         <a href="#">내 프로필</a>
@@ -190,10 +204,10 @@
             <h2>새 게시글 작성</h2>
             <form action="/submit-post" method="POST">
                 <label for="title">제목:</label>
-                <input type="text" id="title" name="title" required>
+                <input type="text" id="title" name="title" aria-required="true" required>
 
                 <label for="content">내용:</label>
-                <textarea id="content" name="content" rows="5" required></textarea>
+                <textarea id="content" name="content" rows="5" aria-required="true" required></textarea>
 
                 <button type="submit">게시글 제출</button>
             </form>
