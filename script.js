@@ -27,3 +27,32 @@ function addComment(button) {
         alert('댓글을 작성하세요!');
     }
 }
+
+// 대분류와 소분류 연결
+document.getElementById('category').addEventListener('change', function() {
+    const subcategory = document.getElementById('subcategory');
+    subcategory.innerHTML = ''; // 기존 소분류 옵션 삭제
+
+    let options = [];
+
+    switch (this.value) {
+        case 'technology':
+            options = ['소프트웨어', '하드웨어', '인공지능'];
+            break;
+        case 'health':
+            options = ['영양', '운동', '정신 건강'];
+            break;
+        case 'entertainment':
+            options = ['영화', '음악', '게임'];
+            break;
+        default:
+            options = [];
+    }
+
+    options.forEach(function(option) {
+        const opt = document.createElement('option');
+        opt.value = option.toLowerCase();
+        opt.textContent = option;
+        subcategory.appendChild(opt);
+    });
+});
