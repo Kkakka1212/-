@@ -62,15 +62,15 @@ function previewImages() {
             img.src = e.target.result;
             img.className = 'image-item';
             img.dataset.filename = file.name; // 파일 이름을 데이터 속성으로 저장
-            
+
             const removeBtn = document.createElement('button');
             removeBtn.textContent = '삭제';
             removeBtn.onclick = function() {
                 removeImage(file.name); // 파일 이름으로 제거
             };
-            
+
             const div = document.createElement('div');
-            div.className = 'image-item';
+            div.className = 'image-item-container'; // 컨테이너를 생성하여 이미지와 삭제 버튼을 포함
             div.appendChild(img);
             div.appendChild(removeBtn);
             previewContainer.appendChild(div);
@@ -80,13 +80,23 @@ function previewImages() {
 }
 
 function removeImage(fileName) {
-    const imageItems = document.querySelectorAll('#imagePreview .image-item');
+    const imageItems = document.querySelectorAll('#imagePreview .image-item-container');
     imageItems.forEach(item => {
         const img = item.querySelector('img');
         if (img && img.dataset.filename === fileName) {
             item.remove(); // 이미지 요소를 DOM에서 제거
         }
     });
+
+    // 파일 입력란에서 선택된 파일 목록에서 삭제된 파일을 제거
+    const dataTransfer = new DataTransfer();
+    const files = document.getElementById('files').files;
+    for (const file of files) {
+        if (file.name !== fileName) {
+            dataTransfer.items.add(file);
+        }
+    }
+    document.getElementById('files').files = dataTransfer.files;
 }
 
 function toggleComments(element) {
