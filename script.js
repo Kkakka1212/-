@@ -1,4 +1,4 @@
-script>
+<script>
     // 좋아요 버튼 클릭 시 좋아요 수 증가 및 취소
     function likePost(button) {
         // 현재 좋아요 수 가져오기
