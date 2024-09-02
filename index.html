@@ -3,31 +3,450 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>나의 포럼 웹사이트</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #444;
+            padding: 1rem;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 1rem;
+            text-decoration: none;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-container {
+            margin-bottom: 2rem;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .post {
+            border-bottom: 1px solid #ddd;
+            padding: 1rem 0;
+            position: relative;
+        }
+
+        .post.recent {
+            border-left: 5px solid #007BFF;
+            background-color: #f0f8ff;
+        }
+
+        .post h2 {
+            margin: 0;
+            cursor: pointer;
+        }
+
+        .post p {
+            margin: 0.5rem 0 0 0;
+        }
+
+        .tag {
+            background-color: #eee;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.9rem;
+            margin-right: 0.5rem;
+            cursor: pointer;
+        }
+
+        .like-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.6rem;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .like-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .like-count {
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+            color: #333;
+        }
+
+        .comment-section {
+            margin-top: 1rem;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            display: none; /* 댓글창을 처음에 숨깁니다 */
+        }
+
+        .comment-section h3 {
+            margin-top: 0;
+        }
+
+        .comment-section textarea {
+            width: 100%;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+
+        .comment-section button {
+            padding: 0.5rem 1rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .comment-section button:hover {
+            background-color: #555;
+        }
+
+        .toggle-comments {
+            cursor: pointer;
+            color: #007BFF;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: #333;
+            color: white;
+            margin-top: 2rem;
+            font-family: 'Pacifico', cursive;
+            font-size: 1.5rem;
+        }
+
+        .form-container {
+            margin-top: 2rem;
+        }
+
+        .form-container h2 {
+            margin-bottom: 1rem;
+        }
+
+        .form-container form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-container input, 
+        .form-container textarea {
+            margin-bottom: 1rem;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        .form-container button {
+            padding: 0.5rem;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #555;
+        }
+
+        .form-container input[type="file"] {
+            padding: 0.5rem;
+            background-color: #f4f4f4;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            margin-bottom: 1rem;
+        }
+
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .image-preview img {
+            max-width: 100px;
+            max-height: 100px;
+            object-fit: cover;
+        }
+
+        .image-preview .image-item {
+            position: relative;
+        }
+
+        .image-preview .image-item button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 0.2rem 0.5rem;
+            border-radius: 0 0.5rem 0 0;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .image-preview .image-item button:hover {
+            background-color: #cc0000;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>게시판</h1>
-        <nav class="channel-nav">
-            <button class="channel" onclick="showChannel('공지')">공지</button>
-            <button class="channel" onclick="showChannel('태그1')">태그1</button>
-            <button class="channel" onclick="showChannel('태그2')">태그2</button>
-            <button class="channel" onclick="showChannel('태그3')">태그3</button>
-            <button class="channel" onclick="showChannel('태그4')">태그4</button>
-        </nav>
+        <h1>나의 포럼 웹사이트</h1>
     </header>
-    
-    <main>
-        <div id="postsContainer">
-            <!-- 게시글이 여기에 동적으로 추가됩니다 -->
+
+    <nav>
+        <a href="#">홈</a>
+        <a href="#">포럼</a>
+        <a href="#">내 프로필</a>
+        <a href="#">로그인</a>
+    </nav>
+
+    <div class="container">
+        <!-- 검색 기능 추가 -->
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="제목 또는 태그로 검색..." onkeyup="searchPosts()">
         </div>
-    </main>
 
-    <footer>
-        <p>© 2024 나의 포럼 웹사이트. 모든 권리 보유.</p>
-    </footer>
+        <!-- 게시글 목록 -->
+        <div class="post recent" data-tags="태그1 태그2" data-title="첫 번째 게시글">
+            <h2>첫 번째 게시글</h2>
+            <div class="tags">
+                <span class="tag" onclick="filterPosts('태그1')">태그1</span>
+                <span class="tag" onclick="filterPosts('태그2')">태그2</span>
+            </div>
+            <p>이것은 첫 번째 게시글의 내용입니다. 이곳에 글을 작성할 수 있습니다.</p>
+            <button class="like-btn" onclick="likePost(this)">좋아요 <span class="like-count">0</span></button>
+            <div class="toggle-comments" onclick="toggleComments(this)">댓글 보기</div>
+            <div class="comment-section">
+                <h3>댓글</h3>
+                <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
+                <button type="button">댓글 달기</button>
+            </div>
+        </div>
 
-    <script src="scripts.js"></script>
-</body>
-</html>
+        <div class="post" data-tags="태그3 태그4" data-title="두 번째 게시글">
+            <h2>두 번째 게시글</h2>
+            <div class="tags">
+                <span class="tag" onclick="filterPosts('태그3')">태그3</span>
+                <span class="tag" onclick="filterPosts('태그4')">태그4</span>
+            </div>
+            <p>이것은 두 번째 게시글의 내용입니다. 여기에도 글을 작성할 수 있습니다.</p>
+            <button class="like-btn" onclick="likePost(this)">좋아요 <span class="like-count">0</span></button>
+            <div class="toggle-comments" onclick="toggleComments(this)">댓글 보기</div>
+            <div class="comment-section">
+                <h3>댓글</h3>
+                <textarea rows="3" placeholder="댓글을 작성하세요..."></textarea>
+                <button type="button">댓글 달기</button>
+            </div>
+        </div>
+
+        <!-- 새 글 작성 폼 -->
+        <div class="form-container">
+    <h2>새 게시글 작성</h2>
+    <form id="postForm" action="/submit-post" method="POST" enctype="multipart/form-data">
+        <label for="title">제목:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="content">내용:</label>
+        <textarea id="content" name="content" rows="5" required></textarea>
+
+        <label for="mainTag">대분류(대태그):</label>
+        <select id="mainTag" onchange="updateSubTags()">
+            <option value="">대태그 선택</option>
+            <option value="대태그1">대태그1</option>
+            <option value="대태그2">대태그2</option>
+            <option value="대태그3">대태그3</option>
+            <option value="대태그4">대태그4</option>
+            <option value="대태그5">대태그5</option>
+        </select>
+
+        <label for="subTag">소분류(소태그):</label>
+        <select id="subTag">
+            <option value="">소태그 선택</option>
+            <!-- 소태그 옵션은 JavaScript에 의해 동적으로 추가됨 -->
+        </select>
+
+        <button type="button" onclick="addTag()">태그 추가</button>
+
+        <div id="selectedTags" class="selected-tags"></div>
+
+        <label for="files">이미지 첨부:</label>
+        <input type="file" id="files" name="files" multiple accept="image/*" onchange="previewImages()">
+
+        <div class="image-preview" id="imagePreview"></div>
+
+        <button type="submit">게시글 작성</button>
+    </form>
+</div>
+
+<script>
+    const imagePreview = document.getElementById('imagePreview');
+    const selectedTags = document.getElementById('selectedTags');
+    const mainTagSelect = document.getElementById('mainTag');
+    const subTagSelect = document.getElementById('subTag');
+
+    // 대태그와 소태그 매핑
+    const subTagsMapping = {
+        "대태그1": ["소태그1-1", "소태그1-2", "소태그1-3"],
+        "대태그2": ["소태그2-1", "소태그2-2", "소태그2-3"],
+        "대태그3": ["소태그3-1", "소태그3-2", "소태그3-3"],
+        "대태그4": ["소태그4-1", "소태그4-2", "소태그4-3"],
+        "대태그5": ["소태그5-1", "소태그5-2", "소태그5-3"]
+    };
+
+    function updateSubTags() {
+        const selectedMainTag = mainTagSelect.value;
+        subTagSelect.innerHTML = '<option value="">소태그 선택</option>'; // 초기화
+
+        if (selectedMainTag in subTagsMapping) {
+            const subTags = subTagsMapping[selectedMainTag];
+            subTags.forEach(subTag => {
+                const option = document.createElement('option');
+                option.value = subTag;
+                option.textContent = subTag;
+                subTagSelect.appendChild(option);
+            });
+        }
+    }
+
+    function addTag() {
+        const mainTag = mainTagSelect.value;
+        const subTag = subTagSelect.value;
+
+        if (mainTag && subTag) {
+            const tagItem = document.createElement('span');
+            tagItem.textContent = `${mainTag} - ${subTag}`;
+            tagItem.classList.add('tag');
+            tagItem.onclick = function() {
+                selectedTags.removeChild(tagItem);
+            };
+            selectedTags.appendChild(tagItem);
+            mainTagSelect.value = ''; // 선택한 대태그 초기화
+            subTagSelect.innerHTML = '<option value="">소태그 선택</option>'; // 소태그 초기화
+        } else {
+            alert("대태그와 소태그를 모두 선택해 주세요.");
+        }
+    }
+
+    function previewImages() {
+        imagePreview.innerHTML = ''; // 이전 이미지 미리보기 삭제
+        const files = document.getElementById('files').files;
+
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const imageItem = document.createElement('div');
+                imageItem.classList.add('image-item');
+
+                const img = document.createElement('img');
+                img.src = event.target.result;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = '삭제';
+                deleteButton.onclick = function() {
+                    const newFiles = Array.from(files).filter((_, index) => index !== i);
+                    document.getElementById('files').files = new DataTransfer().files; // Clear file input
+                    newFiles.forEach((file) => {
+                        const dataTransfer = new DataTransfer();
+                        dataTransfer.items.add(file);
+                        document.getElementById('files').files = dataTransfer.files;
+                    });
+                    previewImages(); // 업데이트된 이미지 미리보기
+                };
+
+                imageItem.appendChild(img);
+                imageItem.appendChild(deleteButton);
+                imagePreview.appendChild(imageItem);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    }
+</script>
+
+<style>
+    .selected-tags {
+        margin: 1rem 0;
+    }
+
+    .tag {
+        background-color: #007bff;
+        color: white;
+        padding: 0.3rem 0.6rem;
+        border-radius: 3px;
+        margin: 0.2rem;
+        cursor: pointer;
+    }
+
+    .tag:hover {
+        background-color: #0056b3;
+    }
+
+    .image-item {
+        display: flex;
+        align-items: center;
+        margin: 0.5rem 0;
+    }
+
+    .image-item img {
+        max-width: 100px;
+        margin-right: 0.5rem;
+    }
+
+    .image-item button {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 0.2rem 0.5rem;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+
+    .image-item button:hover {
+        background-color: #c82333;
+    }
+</style>
+
