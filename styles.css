@@ -128,3 +128,38 @@ footer {
     bottom: 0;
     width: 100%;
 }
+/* 기존 스타일 생략 */
+
+#imagePreviewContainer {
+    position: relative;
+    display: inline-block;
+    margin-top: 15px;
+}
+
+#imagePreview {
+    max-width: 100%;
+    max-height: 200px;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#removeImageButton {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 12px;
+    display: none; /* 삭제 버튼은 기본적으로 숨김 */
+}
+
+#removeImageButton:hover {
+    background-color: darkred;
+}
+
+/* 기존 스타일 유지 */
