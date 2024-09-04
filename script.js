@@ -1,14 +1,70 @@
-const postsData = [
-    { title: '첫 번째 게시글', content: '이것은 첫 번째 게시글의 내용입니다.', moreContent: '이곳은 더 많은 내용이 추가된 부분입니다. 사용자는 \'더보기\'를 클릭하여 이 부분을 볼 수 있습니다. 추가적인 내용이 여기에 들어갑니다.', tags: ['공지', '태그1', '태그2'] },
-    { title: '두 번째 게시글', content: '이것은 두 번째 게시글의 내용입니다.', moreContent: '여기에 추가적인 긴 내용이 포함됩니다. 사용자는 \'더보기\' 버튼을 클릭하여 이 내용을 볼 수 있습니다.', tags: ['공지', '태그3', '태그4'] },
-];
+const postsData = [];
+
+document.getElementById('postForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const title = document.getElementById('title').value.trim();
+    const content = document.getElementById('content').value.trim();
+    const tagsSelect = document.getElementById('tags');
+    const selectedTags = Array.from(tagsSelect.selectedOptions).map(option => option.value);
+
+    const imageSrc = document.getElementById('imagePreview').src;
+
+    if (title && content && selectedTags.length > 0) {
+        const newPost = {
+            title: title,
+            content: content,
+            moreContent: '추가적인 내용이 여기에 들어갑니다.',
+            tags: selectedTags,
+            image: imageSrc
+        };
+
+        postsData.push(newPost);
+        showChannel('전체');
+
+        document.getElementById('postForm').reset();
+        clearImagePreview();
+    }
+});
+
+document.getElementById('imageInput').addEventListener('change', function() {
+    const file = this.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            const imagePreview = document.getElementById('imagePreview');
+            const removeImageButton = document.getElementById('removeImageButton');
+
+            imagePreview.src = e.target.result;
+            imagePreviewContainer.style.display = 'inline-block';
+            removeImageButton.style.display = 'inline';
+        };
+        reader.readAsDataURL(file);
+    }
+});
+
+function removeImage() {
+    const imageInput = document.getElementById('imageInput');
+    clearImagePreview();
+    imageInput.value = ''; // 선택된 파일 초기화
+}
+
+function clearImagePreview() {
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+    const removeImageButton = document.getElementById('removeImageButton');
+
+    imagePreview.src = '';
+    imagePreviewContainer.style.display = 'none';
+    removeImageButton.style.display = 'none';
+}
 
 function showChannel(channelName) {
     const postsContainer = document.getElementById('postsContainer');
     postsContainer.innerHTML = '';
 
-    // 필터링된 게시글 데이터
-    const filteredPosts = postsData.filter(post => post.tags.includes(channelName));
+    const filteredPosts = postsData.filter(post => post.tags.includes(channelName) || channelName === '전체');
 
     filteredPosts.forEach(post => {
         const postDiv = document.createElement('div');
@@ -17,6 +73,7 @@ function showChannel(channelName) {
             <h2>${post.title}</h2>
             <div class="tags">${post.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>
             <p class="post-content">${post.content} <span class="more-content">${post.moreContent}</span></p>
+            ${post.image ? `<img src="${post.image}" alt="게시글 이미지" class="post-image">` : ''}
             <button class="toggle-more" onclick="toggleMore(this)">더보기</button>
             <div class="comment-section">
                 <h3>댓글</h3>
@@ -28,7 +85,6 @@ function showChannel(channelName) {
         postsContainer.appendChild(postDiv);
     });
 
-    // 활성화된 채널 버튼 업데이트
     const channels = document.querySelectorAll('.channel');
     channels.forEach(channel => {
         channel.classList.toggle('active', channel.textContent === channelName);
@@ -61,3 +117,6 @@ function addComment(button) {
         textarea.value = '';
     }
 }
+
+// 초기 상태로 전체 게시글 표시
+showChannel('전체');
