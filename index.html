@@ -50,13 +50,19 @@
             </form>
         </section>
 
+        <!-- 검색 섹션 추가 -->
+        <section class="search-section">
+            <h2>게시글 검색</h2>
+            <input type="text" id="searchInput" placeholder="제목 또는 태그로 검색" oninput="searchPosts()">
+        </section>
+
         <section id="postsContainer">
             <!-- 게시글이 여기에 동적으로 추가됩니다 -->
         </section>
     </main>
 
     <footer>
-        <p>© 2024 나의 포럼 웹사이트. 모든 권리 보유.</p>
+        <p id="footerText">© 2024 나의 포럼 웹사이트. 모든 권리 보유.</p>
     </footer>
 
     <script src="scripts.js"></script>
