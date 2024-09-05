@@ -19,6 +19,14 @@
     </nav>
 
     <div class="container">
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="제목이나 태그로 검색..." onkeyup="searchPosts()">
+        </div>
+
+        <div id="postsContainer">
+            <!-- 게시글이 여기에 동적으로 추가됩니다. -->
+        </div>
+
         <div class="form-container">
             <h2>새 게시글 작성</h2>
             <form id="postForm" action="/submit-post" method="POST" enctype="multipart/form-data">
