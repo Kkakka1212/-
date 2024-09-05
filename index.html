@@ -7,45 +7,62 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="form-container">
-        <h2>새 게시글 작성</h2>
-        <form id="postForm" action="/submit-post" method="POST" enctype="multipart/form-data">
-            <label for="title">제목:</label>
-            <input type="text" id="title" name="title" required>
+    <header>
+        <h1>나의 포럼 웹사이트</h1>
+    </header>
 
-            <label for="content">내용:</label>
-            <textarea id="content" name="content" rows="5" required></textarea>
+    <nav>
+        <a href="#">홈</a>
+        <a href="#">포럼</a>
+        <a href="#">내 프로필</a>
+        <a href="#">로그인</a>
+    </nav>
 
-            <label for="tags">태그:</label>
-            <select id="tagSelect" onchange="addTag()">
-                <option value="">태그 선택</option>
-                <option value="태그1">태그1</option>
-                <option value="태그2">태그2</option>
-                <option value="태그3">태그3</option>
-                <option value="태그4">태그4</option>
-                <option value="태그5">태그5</option>
-                <option value="태그6">태그6</option>
-                <option value="태그7">태그7</option>
-                <option value="태그8">태그8</option>
-                <option value="태그9">태그9</option>
-                <option value="태그10">태그10</option>
-                <option value="태그11">태그11</option>
-                <option value="태그12">태그12</option>
-                <option value="태그13">태그13</option>
-                <option value="태그14">태그14</option>
-                <option value="태그15">태그15</option>
-            </select>
+    <div class="container">
+        <div class="form-container">
+            <h2>새 게시글 작성</h2>
+            <form id="postForm" action="/submit-post" method="POST" enctype="multipart/form-data">
+                <label for="title">제목:</label>
+                <input type="text" id="title" name="title" required>
 
-            <div id="selectedTags" class="selected-tags"></div>
+                <label for="content">내용:</label>
+                <textarea id="content" name="content" rows="5" required></textarea>
 
-            <label for="files">이미지 첨부:</label>
-            <input type="file" id="files" name="files" multiple accept="image/*" onchange="previewImages()">
+                <label for="tags">태그:</label>
+                <select id="tagSelect" onchange="addTag()">
+                    <option value="">태그 선택</option>
+                    <option value="태그1">태그1</option>
+                    <option value="태그2">태그2</option>
+                    <option value="태그3">태그3</option>
+                    <option value="태그4">태그4</option>
+                    <option value="태그5">태그5</option>
+                    <option value="태그6">태그6</option>
+                    <option value="태그7">태그7</option>
+                    <option value="태그8">태그8</option>
+                    <option value="태그9">태그9</option>
+                    <option value="태그10">태그10</option>
+                    <option value="태그11">태그11</option>
+                    <option value="태그12">태그12</option>
+                    <option value="태그13">태그13</option>
+                    <option value="태그14">태그14</option>
+                    <option value="태그15">태그15</option>
+                </select>
 
-            <div class="image-preview" id="imagePreview"></div>
+                <div id="selectedTags" class="selected-tags"></div>
 
-            <button type="submit">게시글 작성</button>
-        </form>
+                <label for="files">이미지 첨부:</label>
+                <input type="file" id="files" name="files" multiple accept="image/*" onchange="previewImages()">
+
+                <div class="image-preview" id="imagePreview"></div>
+
+                <button type="submit">게시글 작성</button>
+            </form>
+        </div>
     </div>
+
+    <footer>
+        <p>나의 포럼 웹사이트</p>
+    </footer>
 
     <script src="script.js"></script>
 </body>
