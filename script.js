@@ -5,11 +5,10 @@ const imagePreview = document.getElementById('imagePreview');
 const selectedTags = document.getElementById('selectedTags');
 const tagSelect = document.getElementById('tagSelect');
 
-// 예시 게시글 데이터
 const posts = [
-    { title: '안내', content: ' 태그를 선택하시는 걸 권장드립니다. 그래야 서버에 정상적인 글 저장이 가능합니다', tags: ['태그1'] },
-    { title: '안내', content: '이미지 첨부 기능은 테스트중입니다. 정상적 작동을 보장하기 어렵습니다. ', tags: ['태그2'] },
-    { title: '안내', content: ' 태그는 여러개 선택 가능합니다. 선택한 태그 삭제는 선택된 태그를 누르세요', tags: ['태그1'] }
+    { title: '새 제목 1', content: '이것은 첫 번째 게시글의 새 내용입니다.', tags: ['새태그1', '새태그2'] },
+    { title: '두 번째 새로운 제목', content: '이것은 두 번째 게시글의 새로운 내용입니다.', tags: ['새태그3', '새태그4'] }
+];
     
 ];
 
