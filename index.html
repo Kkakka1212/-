@@ -3,59 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>게시판</title>
+    <title>나의 포럼 웹사이트</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>게시판</h1>
-        <div id="tag-buttons">
-            <button onclick="filterPosts('전체')">전체</button>
-            <button onclick="filterPosts('공지')">공지</button>
-            <button onclick="filterPosts('태그1')">태그 1</button>
-            <button onclick="filterPosts('태그2')">태그 2</button>
-            <button onclick="filterPosts('태그3')">태그 3</button>
-        </div>
-    </header>
-
-    <section>
+    <div class="form-container">
         <h2>새 게시글 작성</h2>
-        <form id="postForm" onsubmit="submitPost(event)">
+        <form id="postForm" action="/submit-post" method="POST" enctype="multipart/form-data">
             <label for="title">제목:</label>
-            <input type="text" id="title" name="title" required><br>
+            <input type="text" id="title" name="title" required>
 
             <label for="content">내용:</label>
-            <textarea id="content" name="content" rows="5" required></textarea><br>
+            <textarea id="content" name="content" rows="5" required></textarea>
 
             <label for="tags">태그:</label>
-            <select id="tags" name="tags" onchange="updateSelectedTag()" required>
-                <option value="태그1">태그 1</option>
-                <option value="태그2">태그 2</option>
-                <option value="태그3">태그 3</option>
-            </select><br>
-            
-            <p id="selectedTag">선택된 태그 없음</p>
-            
-            <label for="imageUpload">이미지 업로드:</label>
-            <input type="file" id="imageUpload" accept="image/*" onchange="previewImage()"><br>
-            <div id="imagePreviewContainer"></div>
-            
+            <select id="tagSelect" onchange="addTag()">
+                <option value="">태그 선택</option>
+                <option value="태그1">태그1</option>
+                <option value="태그2">태그2</option>
+                <option value="태그3">태그3</option>
+                <option value="태그4">태그4</option>
+                <option value="태그5">태그5</option>
+                <option value="태그6">태그6</option>
+                <option value="태그7">태그7</option>
+                <option value="태그8">태그8</option>
+                <option value="태그9">태그9</option>
+                <option value="태그10">태그10</option>
+                <option value="태그11">태그11</option>
+                <option value="태그12">태그12</option>
+                <option value="태그13">태그13</option>
+                <option value="태그14">태그14</option>
+                <option value="태그15">태그15</option>
+            </select>
+
+            <div id="selectedTags" class="selected-tags"></div>
+
+            <label for="files">이미지 첨부:</label>
+            <input type="file" id="files" name="files" multiple accept="image/*" onchange="previewImages()">
+
+            <div class="image-preview" id="imagePreview"></div>
+
             <button type="submit">게시글 작성</button>
         </form>
-    </section>
+    </div>
 
-    <section id="postsSection">
-        <h2>게시글 목록</h2>
-        <div id="postsContainer">
-            <!-- 공지 게시글 예시 -->
-            <div class="post" data-tags="공지">
-                <h3>공지: 새로운 업데이트 소식</h3>
-                <p>게시판 기능이 새롭게 업데이트되었습니다.</p>
-                <p><strong>태그:</strong> 공지</p>
-            </div>
-        </div>
-    </section>
-
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
