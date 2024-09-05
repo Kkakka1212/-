@@ -4,114 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
-    <style>
-        /* 필요한 CSS 스타일 */
-        #imagePreviewContainer {
-            display: none;
-        }
-        #removeImageButton {
-            display: none;
-        }
-        #searchResult {
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <h1>게시판</h1>
+        <div id="tag-buttons">
+            <button onclick="filterPosts('전체')">전체</button>
+            <button onclick="filterPosts('공지')">공지</button>
+            <button onclick="filterPosts('태그1')">태그 1</button>
+            <button onclick="filterPosts('태그2')">태그 2</button>
+            <button onclick="filterPosts('태그3')">태그 3</button>
+        </div>
+    </header>
 
-    <!-- 태그 선택 (하나만 선택 가능) -->
-    <label for="tags">태그 선택:</label>
-    <select id="tags" onchange="updateSelectedTags()">
-        <option value="tag1">태그 1</option>
-        <option value="tag2">태그 2</option>
-        <option value="tag3">태그 3</option>
-    </select>
-    <p id="selectedTags">선택된 태그 없음</p>
+    <section>
+        <h2>새 게시글 작성</h2>
+        <form id="postForm" onsubmit="submitPost(event)">
+            <label for="title">제목:</label>
+            <input type="text" id="title" name="title" required><br>
 
-    <!-- 이미지 업로드 -->
-    <input type="file" id="imageInput" onchange="previewImage(event)" />
-    <div id="imagePreviewContainer">
-        <img id="imagePreview" src="" alt="Image preview" width="200" />
-        <button type="button" id="removeImageButton" onclick="removeImage()">이미지 삭제</button>
-    </div>
+            <label for="content">내용:</label>
+            <textarea id="content" name="content" rows="5" required></textarea><br>
 
-    <!-- 게시글 검색 기능 -->
-    <div>
-        <label for="search">게시글 검색:</label>
-        <input type="text" id="search" oninput="searchPosts()" placeholder="게시글 제목 또는 태그 입력" />
-    </div>
-    <div id="searchResult"></div>
+            <label for="tags">태그:</label>
+            <select id="tags" name="tags" onchange="updateSelectedTag()" required>
+                <option value="태그1">태그 1</option>
+                <option value="태그2">태그 2</option>
+                <option value="태그3">태그 3</option>
+            </select><br>
+            
+            <p id="selectedTag">선택된 태그 없음</p>
+            
+            <label for="imageUpload">이미지 업로드:</label>
+            <input type="file" id="imageUpload" accept="image/*" onchange="previewImage()"><br>
+            <div id="imagePreviewContainer"></div>
+            
+            <button type="submit">게시글 작성</button>
+        </form>
+    </section>
 
-    <!-- JavaScript 코드 -->
-    <script>
-        // 태그 업데이트 함수
-        function updateSelectedTags() {
-            const select = document.getElementById('tags');
-            const selectedTag = select.options[select.selectedIndex].text;
-            document.getElementById('selectedTags').textContent = `선택된 태그: ${selectedTag}`;
-        }
+    <section id="postsSection">
+        <h2>게시글 목록</h2>
+        <div id="postsContainer">
+            <!-- 공지 게시글 예시 -->
+            <div class="post" data-tags="공지">
+                <h3>공지: 새로운 업데이트 소식</h3>
+                <p>게시판 기능이 새롭게 업데이트되었습니다.</p>
+                <p><strong>태그:</strong> 공지</p>
+            </div>
+        </div>
+    </section>
 
-        // 이미지 미리보기 함수
-        function previewImage(event) {
-            const input = event.target;
-            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-            const imagePreview = document.getElementById('imagePreview');
-            const removeImageButton = document.getElementById('removeImageButton');
-
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-
-                reader.onload = function (e) {
-                    imagePreview.src = e.target.result;
-                    imagePreviewContainer.style.display = 'block';
-                    removeImageButton.style.display = 'inline';
-                };
-
-                reader.readAsDataURL(input.files[0]);
-            } else {
-                imagePreviewContainer.style.display = 'none';
-                removeImageButton.style.display = 'none';
-            }
-        }
-
-        // 이미지 삭제 함수
-        function removeImage() {
-            const input = document.getElementById('imageInput');
-            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-            const imagePreview = document.getElementById('imagePreview');
-
-            input.value = '';  // 파일 입력 초기화
-            imagePreview.src = '';  // 이미지 미리보기 초기화
-            imagePreviewContainer.style.display = 'none';
-        }
-
-        // 게시글 검색 함수
-        const posts = [
-            { title: "첫 번째 게시글", tags: ["태그 1", "태그 2"], content: "첫 번째 게시글 내용입니다." },
-            { title: "두 번째 게시글", tags: ["태그 3", "태그 4"], content: "두 번째 게시글 내용입니다." }
-        ];
-
-        function searchPosts() {
-            const searchValue = document.getElementById('search').value.toLowerCase();
-            const searchResult = document.getElementById('searchResult');
-            searchResult.innerHTML = '';
-
-            const filteredPosts = posts.filter(post => {
-                return post.title.toLowerCase().includes(searchValue) ||
-                       post.tags.some(tag => tag.toLowerCase().includes(searchValue));
-            });
-
-            if (filteredPosts.length > 0) {
-                filteredPosts.forEach(post => {
-                    const postElement = document.createElement('div');
-                    postElement.innerHTML = `<h3>${post.title}</h3><p>${post.content}</p><p>태그: ${post.tags.join(", ")}</p>`;
-                    searchResult.appendChild(postElement);
-                });
-            } else {
-                searchResult.innerHTML = '검색 결과 없음';
-            }
-        }
-    </script>
-
+    <script src="scripts.js"></script>
 </body>
 </html>
