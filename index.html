@@ -79,3 +79,48 @@
     <script src="scripts.js"></script>
 </body>
 </html>
+
+<!-- JavaScript 코드 삽입 -->
+    <script>
+        // 내가 제공한 JavaScript 코드
+        function updateSelectedTags() {
+            const select = document.getElementById('tags');
+            const selectedOptions = Array.from(select.selectedOptions);
+
+            if (selectedOptions.length > 0) {
+                const selectedTags = selectedOptions.map(option => option.text).join(', ');
+                document.getElementById('selectedTags').textContent = `선택된 태그: ${selectedTags}`;
+            } else {
+                document.getElementById('selectedTags').textContent = '선택된 태그 없음';
+            }
+        }
+
+        function previewImage(event) {
+            const input = event.target;
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            const imagePreview = document.getElementById('imagePreview');
+            const removeImageButton = document.getElementById('removeImageButton');
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreviewContainer.style.display = 'block';
+                    removeImageButton.style.display = 'inline';
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                imagePreviewContainer.style.display = 'none';
+            }
+        }
+
+        function removeImage() {
+            const input = document.getElementById('imageInput');
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            const imagePreview = document
+
+
+
+
