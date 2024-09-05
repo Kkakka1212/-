@@ -4,97 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시판</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 필요한 CSS 스타일 */
+        #imagePreviewContainer {
+            display: none;
+        }
+        #removeImageButton {
+            display: none;
+        }
+        #searchResult {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>게시판</h1>
-        <nav class="channel-nav">
-            <div class="channel" onclick="showChannel('전체')">전체</div>
-            <div class="channel" onclick="showChannel('공지')">공지</div>
-            <div class="channel" onclick="showChannel('태그1')">태그1</div>
-            <div class="channel" onclick="showChannel('태그2')">태그2</div>
-            <div class="channel" onclick="showChannel('태그3')">태그3</div>
-            <div class="channel" onclick="showChannel('태그4')">태그4</div>
-        </nav>
 
-        <div class="search-section">
-            <input type="text" id="searchInput" placeholder="태그 또는 제목으로 검색..." oninput="searchPosts()">
-        </div>
-    </header>
+    <!-- 태그 선택 (하나만 선택 가능) -->
+    <label for="tags">태그 선택:</label>
+    <select id="tags" onchange="updateSelectedTags()">
+        <option value="tag1">태그 1</option>
+        <option value="tag2">태그 2</option>
+        <option value="tag3">태그 3</option>
+    </select>
+    <p id="selectedTags">선택된 태그 없음</p>
 
-    <main>
-        <!-- 공지 게시글 -->
-        <section id="noticeContainer">
-            <div class="post">
-                <h2>공지사항</h2>
-                <div class="tags">
-                    <span class="tag">공지</span>
-                </div>
-                <p>이것은 공지사항 게시글입니다. 여기에 공지사항 내용을 작성할 수 있습니다.</p>
-            </div>
-        </section>
+    <!-- 이미지 업로드 -->
+    <input type="file" id="imageInput" onchange="previewImage(event)" />
+    <div id="imagePreviewContainer">
+        <img id="imagePreview" src="" alt="Image preview" width="200" />
+        <button type="button" id="removeImageButton" onclick="removeImage()">이미지 삭제</button>
+    </div>
 
-        <section class="form-section">
-            <h2>새 게시글 작성</h2>
-            <form id="postForm">
-                <label for="title">제목:</label>
-                <input type="text" id="title" name="title" required>
+    <!-- 게시글 검색 기능 -->
+    <div>
+        <label for="search">게시글 검색:</label>
+        <input type="text" id="search" oninput="searchPosts()" placeholder="게시글 제목 또는 태그 입력" />
+    </div>
+    <div id="searchResult"></div>
 
-                <label for="content">내용:</label>
-                <textarea id="content" name="content" rows="5" required></textarea>
-
-                <label for="tags">태그:</label>
-                <select id="tags" name="tags" multiple required onchange="updateSelectedTags()">
-                    <option value="공지">공지</option>
-                    <option value="태그1">태그1</option>
-                    <option value="태그2">태그2</option>
-                    <option value="태그3">태그3</option>
-                    <option value="태그4">태그4</option>
-                </select>
-
-                <p id="selectedTags">선택된 태그 없음</p>
-
-                <label for="image">이미지 업로드:</label>
-                <input type="file" id="imageInput" accept="image/*" onchange="previewImage(event)">
-
-                <div id="imagePreviewContainer" style="display: none;">
-                    <img id="imagePreview" src="" alt="이미지 미리보기">
-                    <button type="button" id="removeImageButton" onclick="removeImage()">이미지 삭제</button>
-                </div>
-
-                <button type="submit">게시글 작성</button>
-            </form>
-        </section>
-
-        <section id="postsContainer">
-            <!-- 게시글이 여기에 동적으로 추가됩니다 -->
-        </section>
-    </main>
-
-    <footer>
-        <p>소설과 잡담의 향연</p>
-    </footer>
-
-    <script src="scripts.js"></script>
-</body>
-</html>
-
-<!-- JavaScript 코드 삽입 -->
+    <!-- JavaScript 코드 -->
     <script>
-        // 내가 제공한 JavaScript 코드
+        // 태그 업데이트 함수
         function updateSelectedTags() {
             const select = document.getElementById('tags');
-            const selectedOptions = Array.from(select.selectedOptions);
-
-            if (selectedOptions.length > 0) {
-                const selectedTags = selectedOptions.map(option => option.text).join(', ');
-                document.getElementById('selectedTags').textContent = `선택된 태그: ${selectedTags}`;
-            } else {
-                document.getElementById('selectedTags').textContent = '선택된 태그 없음';
-            }
+            const selectedTag = select.options[select.selectedIndex].text;
+            document.getElementById('selectedTags').textContent = `선택된 태그: ${selectedTag}`;
         }
 
+        // 이미지 미리보기 함수
         function previewImage(event) {
             const input = event.target;
             const imagePreviewContainer = document.getElementById('imagePreviewContainer');
@@ -108,19 +65,53 @@
                     imagePreview.src = e.target.result;
                     imagePreviewContainer.style.display = 'block';
                     removeImageButton.style.display = 'inline';
-                }
+                };
 
                 reader.readAsDataURL(input.files[0]);
             } else {
                 imagePreviewContainer.style.display = 'none';
+                removeImageButton.style.display = 'none';
             }
         }
 
+        // 이미지 삭제 함수
         function removeImage() {
             const input = document.getElementById('imageInput');
             const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-            const imagePreview = document
+            const imagePreview = document.getElementById('imagePreview');
 
+            input.value = '';  // 파일 입력 초기화
+            imagePreview.src = '';  // 이미지 미리보기 초기화
+            imagePreviewContainer.style.display = 'none';
+        }
 
+        // 게시글 검색 함수
+        const posts = [
+            { title: "첫 번째 게시글", tags: ["태그 1", "태그 2"], content: "첫 번째 게시글 내용입니다." },
+            { title: "두 번째 게시글", tags: ["태그 3", "태그 4"], content: "두 번째 게시글 내용입니다." }
+        ];
 
+        function searchPosts() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const searchResult = document.getElementById('searchResult');
+            searchResult.innerHTML = '';
 
+            const filteredPosts = posts.filter(post => {
+                return post.title.toLowerCase().includes(searchValue) ||
+                       post.tags.some(tag => tag.toLowerCase().includes(searchValue));
+            });
+
+            if (filteredPosts.length > 0) {
+                filteredPosts.forEach(post => {
+                    const postElement = document.createElement('div');
+                    postElement.innerHTML = `<h3>${post.title}</h3><p>${post.content}</p><p>태그: ${post.tags.join(", ")}</p>`;
+                    searchResult.appendChild(postElement);
+                });
+            } else {
+                searchResult.innerHTML = '검색 결과 없음';
+            }
+        }
+    </script>
+
+</body>
+</html>
