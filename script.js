@@ -7,7 +7,7 @@ const tagSelect = document.getElementById('tagSelect');
 
 // 예시 게시글 데이터
 const posts = [
-    { title: '첫 번째 게시글', content: '이것은 첫 번째 게시글의 내용입니다.', tags: ['태그1'] },
+    { title: '첫 번ㅓㅏㅏㅓ', content: '이것은 첫 번째 게시글의 내용입니다.', tags: ['태그1'] },
     { title: '두 번째 게시글', content: '이것은 두 번째 게시글의 내용입니다.', tags: ['태그2'] }
 ];
 
