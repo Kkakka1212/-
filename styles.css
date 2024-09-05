@@ -147,3 +147,18 @@ footer {
     color: white;
     margin-top: 2rem;
 }
+/* 기존 스타일 ... */
+
+.search-container {
+    margin: 2rem auto;
+    text-align: center;
+}
+
+#searchInput {
+    padding: 0.5rem;
+    width: 100%;
+    max-width: 500px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
