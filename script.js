@@ -1,41 +1,72 @@
-// 태그 선택 시, 선택된 태그명 표시
-function updateSelectedTags() {
-    const select = document.getElementById('tags');
-    const selectedOptions = Array.from(select.selectedOptions);
-    const selectedTags = selectedOptions.map(option => option.text).join(', ');
-
-    const selectedTagsText = selectedTags ? `선택된 태그: ${selectedTags}` : '선택된 태그 없음';
-    document.getElementById('selectedTags').textContent = selectedTagsText;
+// 태그 선택 기능
+function updateSelectedTag() {
+    const tagSelect = document.getElementById('tags');
+    const selectedTag = tagSelect.options[tagSelect.selectedIndex].text;
+    document.getElementById('selectedTag').textContent = `선택된 태그: ${selectedTag}`;
 }
 
-// 이미지 미리보기 및 삭제 기능
-function previewImage(event) {
-    const input = event.target;
-    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-    const imagePreview = document.getElementById('imagePreview');
-    const removeImageButton = document.getElementById('removeImageButton');
+// 이미지 미리보기 기능
+function previewImage() {
+    const fileInput = document.getElementById('imageUpload');
+    const previewContainer = document.getElementById('imagePreviewContainer');
+    
+    previewContainer.innerHTML = ''; // 기존 미리보기 삭제
 
-    if (input.files && input.files[0]) {
+    const file = fileInput.files[0];
+    if (file) {
         const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
 
-        reader.onload = function (e) {
-            imagePreview.src = e.target.result;
-            imagePreviewContainer.style.display = 'block';
-            removeImageButton.style.display = 'inline';
-        }
+            const removeBtn = document.createElement('div');
+            removeBtn.textContent = '삭제';
+            removeBtn.classList.add('removeImageBtn');
+            removeBtn.onclick = function() {
+                fileInput.value = ''; // 파일 선택 취소
+                previewContainer.innerHTML = ''; // 미리보기 삭제
+            };
 
-        reader.readAsDataURL(input.files[0]);
+            previewContainer.appendChild(img);
+            previewContainer.appendChild(removeBtn);
+        };
+        reader.readAsDataURL(file);
     }
 }
 
-function removeImage() {
-    const input = document.getElementById('imageInput');
-    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-    const imagePreview = document.getElementById('imagePreview');
-    const removeImageButton = document.getElementById('removeImageButton');
+// 게시글 작성 기능
+function submitPost(event) {
+    event.preventDefault();
 
-    input.value = '';  // 입력값 초기화
-    imagePreview.src = '';  // 이미지 미리보기 초기화
-    imagePreviewContainer.style.display = 'none';
-    removeImageButton.style.display = 'none';
+    const title = document.getElementById('title').value;
+    const content = document.getElementById('content').value;
+    const selectedTag = document.getElementById('tags').value;
+
+    const postsContainer = document.getElementById('postsContainer');
+    const newPost = document.createElement('div');
+    newPost.classList.add('post');
+    newPost.setAttribute('data-tags', selectedTag);
+
+    newPost.innerHTML = `
+        <h3>${title}</h3>
+        <p>${content}</p>
+        <p><strong>태그:</strong> ${selectedTag}</p>
+    `;
+
+    postsContainer.appendChild(newPost);
+    document.getElementById('postForm').reset();
+    document.getElementById('selectedTag').textContent = '선택된 태그 없음';
+    document.getElementById('imagePreviewContainer').innerHTML = ''; // 이미지 미리보기 초기화
+}
+
+// 게시글 필터링 (태그에 따라)
+function filterPosts(tag) {
+    const posts = document.querySelectorAll('.post');
+    posts.forEach(post => {
+        if (tag === '전체' || post.getAttribute('data-tags') === tag) {
+            post.style.display = 'block';
+        } else {
+            post.style.display = 'none';
+        }
+    });
 }
