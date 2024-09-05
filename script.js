@@ -70,3 +70,27 @@ function filterPosts(tag) {
         }
     });
 }
+document.addEventListener('DOMContentLoaded', () => {
+    // 이미지 미리보기 기능
+    const imageInput = document.getElementById('imageInput');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+    
+    imageInput.addEventListener('change', () => {
+        const file = imageInput.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                imagePreviewContainer.style.display = 'flex';
+            };
+            reader.readAsDataURL(file);
+        }
+ 
+        // 이미지 삭제 기능
+    document.getElementById('removeImageButton').addEventListener('click', () => {
+        imagePreview.src = '';
+        imagePreviewContainer.style.display = 'none';
+        imageInput.value = '';
+    });
+});
