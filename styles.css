@@ -1,3 +1,55 @@
+/* styles.css */
+
+/* 스타일 기본 설정 */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.form-container {
+    width: 80%;
+    margin: 2rem auto;
+    background-color: white;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    margin-top: 0;
+}
+
+label {
+    display: block;
+    margin: 1rem 0 0.5rem 0;
+}
+
+input[type="text"], textarea, select, button {
+    width: 100%;
+    padding: 0.5rem;
+    margin: 0.5rem 0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+textarea {
+    resize: vertical;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
 .selected-tags {
     margin: 1rem 0;
 }
@@ -39,3 +91,8 @@
     background-color: #c82333;
 }
 
+.image-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
