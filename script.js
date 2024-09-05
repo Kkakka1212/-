@@ -1,69 +1,41 @@
-// 기본 게시글 추가
-document.addEventListener('DOMContentLoaded', () => {
-    const postsContainer = document.getElementById('postsContainer');
-    
-    const initialPost = {
-        title: "공지 사항입니다",
-        content: "여기에 공지 내용이 들어갑니다.",
-        tags: ["공지"],
-        imageUrl: ""
-    };
+// 태그 선택 시, 선택된 태그명 표시
+function updateSelectedTags() {
+    const select = document.getElementById('tags');
+    const selectedOptions = Array.from(select.selectedOptions);
+    const selectedTags = selectedOptions.map(option => option.text).join(', ');
 
-    addPostToContainer(initialPost);
-
-    function addPostToContainer(post) {
-        const postElement = document.createElement('div');
-        postElement.className = 'post';
-        postElement.dataset.tags = post.tags.join(',');
-
-        postElement.innerHTML = `
-            <h3>${post.title}</h3>
-            <p>${post.content}</p>
-            ${post.imageUrl ? `<img src="${post.imageUrl}" alt="첨부 이미지">` : ''}
-        `;
-        
-        postsContainer.appendChild(postElement);
-    }
-
-    window.addPostToContainer = addPostToContainer;
-});
-
-// 게시글 검색 기능
-function searchPosts() {
-    const searchInput = document.getElementById('searchInput').value.toLowerCase();
-    const posts = document.querySelectorAll('#postsContainer .post');
-
-    posts.forEach(post => {
-        const title = post.querySelector('h3').textContent.toLowerCase();
-        const tags = post.dataset.tags.toLowerCase();
-
-        if (title.includes(searchInput) || tags.includes(searchInput)) {
-            post.style.display = '';
-        } else {
-            post.style.display = 'none';
-        }
-    });
+    const selectedTagsText = selectedTags ? `선택된 태그: ${selectedTags}` : '선택된 태그 없음';
+    document.getElementById('selectedTags').textContent = selectedTagsText;
 }
 
 // 이미지 미리보기 및 삭제 기능
-const imageInput = document.getElementById('imageInput');
-const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-const imagePreview = document.getElementById('imagePreview');
+function previewImage(event) {
+    const input = event.target;
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+    const removeImageButton = document.getElementById('removeImageButton');
 
-imageInput.addEventListener('change', () => {
-    const file = imageInput.files[0];
-    if (file) {
+    if (input.files && input.files[0]) {
         const reader = new FileReader();
-        reader.onload = (e) => {
+
+        reader.onload = function (e) {
             imagePreview.src = e.target.result;
             imagePreviewContainer.style.display = 'block';
-        };
-        reader.readAsDataURL(file);
+            removeImageButton.style.display = 'inline';
+        }
+
+        reader.readAsDataURL(input.files[0]);
     }
-});
+}
 
 function removeImage() {
-    imagePreview.src = '';
+    const input = document.getElementById('imageInput');
+    const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+    const removeImageButton = document.getElementById('removeImageButton');
+
+    input.value = '';  // 입력값 초기화
+    imagePreview.src = '';  // 이미지 미리보기 초기화
     imagePreviewContainer.style.display = 'none';
-    imageInput.value = '';
+    removeImageButton.style.display = 'none';
 }
