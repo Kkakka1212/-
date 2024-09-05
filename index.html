@@ -18,59 +18,49 @@
         <a href="#">로그인</a>
     </nav>
 
-    <div class="container">
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="제목이나 태그로 검색..." onkeyup="searchPosts()">
-        </div>
-
-        <div id="postsContainer">
-            <!-- 게시글이 여기에 동적으로 추가됩니다. -->
-        </div>
-
-        <div class="form-container">
-            <h2>새 게시글 작성</h2>
-            <form id="postForm" action="/submit-post" method="POST" enctype="multipart/form-data">
-                <label for="title">제목:</label>
-                <input type="text" id="title" name="title" required>
-
-                <label for="content">내용:</label>
-                <textarea id="content" name="content" rows="5" required></textarea>
-
-                <label for="tags">태그:</label>
-                <select id="tagSelect" onchange="addTag()">
-                    <option value="">태그 선택</option>
-                    <option value="태그1">태그1</option>
-                    <option value="태그2">태그2</option>
-                    <option value="태그3">태그3</option>
-                    <option value="태그4">태그4</option>
-                    <option value="태그5">태그5</option>
-                    <option value="태그6">태그6</option>
-                    <option value="태그7">태그7</option>
-                    <option value="태그8">태그8</option>
-                    <option value="태그9">태그9</option>
-                    <option value="태그10">태그10</option>
-                    <option value="태그11">태그11</option>
-                    <option value="태그12">태그12</option>
-                    <option value="태그13">태그13</option>
-                    <option value="태그14">태그14</option>
-                    <option value="태그15">태그15</option>
-                </select>
-
-                <div id="selectedTags" class="selected-tags"></div>
-
-                <label for="files">이미지 첨부:</label>
-                <input type="file" id="files" name="files" multiple accept="image/*" onchange="previewImages()">
-
-                <div class="image-preview" id="imagePreview"></div>
-
-                <button type="submit"> 업로드 </button>
-            </form>
-        </div>
+    <div id="postsContainer" class="container">
+        <!-- 게시글이 동적으로 여기에 표시됩니다 -->
     </div>
 
-    <footer>
-        <p>나의 포럼 웹사이트</p>
-    </footer>
+    <div class="form-container">
+        <h2>새 게시글 작성</h2>
+        <form id="postForm" action="/submit-post" method="POST" enctype="multipart/form-data">
+            <label for="title">제목:</label>
+            <input type="text" id="title" name="title" required>
+
+            <label for="content">내용:</label>
+            <textarea id="content" name="content" rows="5" required></textarea>
+
+            <label for="tags">태그:</label>
+            <select id="tagSelect" onchange="addTag()">
+                <option value="">태그 선택</option>
+                <option value="태그1">태그1</option>
+                <option value="태그2">태그2</option>
+                <option value="태그3">태그3</option>
+                <option value="태그4">태그4</option>
+                <option value="태그5">태그5</option>
+                <option value="태그6">태그6</option>
+                <option value="태그7">태그7</option>
+                <option value="태그8">태그8</option>
+                <option value="태그9">태그9</option>
+                <option value="태그10">태그10</option>
+                <option value="태그11">태그11</option>
+                <option value="태그12">태그12</option>
+                <option value="태그13">태그13</option>
+                <option value="태그14">태그14</option>
+                <option value="태그15">태그15</option>
+            </select>
+
+            <div id="selectedTags" class="selected-tags"></div>
+
+            <label for="files">이미지 첨부:</label>
+            <input type="file" id="files" name="files" multiple accept="image/*" onchange="previewImages()">
+
+            <div class="image-preview" id="imagePreview"></div>
+
+            <button type="submit">게시글 작성</button>
+        </form>
+    </div>
 
     <script src="script.js"></script>
 </body>
