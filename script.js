@@ -5,11 +5,10 @@ const imagePreview = document.getElementById('imagePreview');
 const selectedTags = document.getElementById('selectedTags');
 const tagSelect = document.getElementById('tagSelect');
 
+// 예시 게시글 데이터
 const posts = [
     { title: '새 제목 1', content: '이것은 첫 번째 게시글의 새 내용입니다.', tags: ['새태그1', '새태그2'] },
     { title: '두 번째 새로운 제목', content: '이것은 두 번째 게시글의 새로운 내용입니다.', tags: ['새태그3', '새태그4'] }
-];
-    
 ];
 
 // 게시글을 화면에 표시하는 함수
