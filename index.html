@@ -18,6 +18,15 @@
         <a href="#">로그인</a>
     </nav>
 
+    <!-- 검색 입력란 추가 -->
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="검색어 입력..." oninput="searchPosts()">
+    </div>
+
+    <div id="postsContainer" class="container">
+        <!-- 게시글이 동적으로 여기에 표시됩니다 -->
+    </div>
+
     <div class="form-container">
         <h2>새 게시글 작성</h2>
         <form id="postForm" action="/submit-post" method="POST" enctype="multipart/form-data">
@@ -58,6 +67,6 @@
         </form>
     </div>
 
-    <script src="scripts.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
